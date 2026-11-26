@@ -18,7 +18,7 @@ metadata:
   name: demo-${ENV}
 ---
 # --- image scanning: app image (shared across all envs) ----------------------
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: demo-app
@@ -29,7 +29,7 @@ spec:
   secretRef:
     name: github-registry-credentials
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: demo-app
@@ -42,7 +42,7 @@ spec:
       range: ">=0.0.1"
 ---
 # --- image scanning: per-env manifests artifact ------------------------------
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: demo-manifests
@@ -53,7 +53,7 @@ spec:
   secretRef:
     name: github-registry-credentials
 ---
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: demo-manifests

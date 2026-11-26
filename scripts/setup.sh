@@ -17,6 +17,7 @@
 #   GITHUB_BRANCH    branch / ref                   (default: main)
 #   GITHUB_TOKEN     token for ghcr pull + backend  (default: `gh auth token`)
 #   BASE_PORT        first host port                (default: 8080)
+#   FLUX_VERSION     Flux release to install        (default: 2.10.1)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,6 +27,8 @@ CLUSTER_NAME="${CLUSTER_NAME:-kuberik-demo}"
 GITHUB_BRANCH="${GITHUB_BRANCH:-main}"
 BASE_PORT="${BASE_PORT:-8080}"
 ENVIRONMENTS="dev staging prod"
+# Flux release installed on the cluster (passed to `flux install --version`).
+FLUX_VERSION="${FLUX_VERSION:-2.10.1}"
 
 # Host ports derived from BASE_PORT (dev / dashboard / staging / prod).
 DEV_PORT="$BASE_PORT"
@@ -80,7 +83,7 @@ kubectl config use-context "kind-${CLUSTER_NAME}" >/dev/null
 
 # --- 2. Flux -----------------------------------------------------------------
 log "installing Flux (+ image-reflector-controller)"
-flux install --components-extra=image-reflector-controller
+flux install --version="v${FLUX_VERSION}" --components-extra=image-reflector-controller
 
 # --- 3. controllers ----------------------------------------------------------
 log "installing kuberik rollout-controller"
